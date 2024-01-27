@@ -1,0 +1,6 @@
+FROM alpine:latest
+
+RUN apk --no-cache add postgresql postgresql-client
+
+
+CMD ["postgres"]
