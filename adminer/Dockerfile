@@ -7,10 +7,10 @@ RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/main" >> /etc/apk/repositor
 
 
 RUN apk --no-cache add \
-    php7 \
-    php7-fpm \
-    php7-pdo \
-    php7-pdo_pgsql
+    php8 \
+    php8-fpm \
+    php8-pdo \
+    php8-pdo_pgsql
 
 # Copier les fichiers Adminer
 COPY . .
