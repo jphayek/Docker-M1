@@ -1,31 +1,35 @@
 FROM alpine:latest
 
-WORKDIR /var/www/html
 
-RUN echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/main" >> /etc/apk/repositories \
-    && echo "http://dl-cdn.alpinelinux.org/alpine/v3.14/community" >> /etc/apk/repositories
+RUN apk add --no-cache \
+    php \
+    php-fpm \
+    php-pdo \
+    php-pdo_mysql \
+    php-json \
+    php-openssl \
+    php-curl \
+    php-zlib \
+    php-xml \
+    php-phar \
+    php-intl \
+    php-dom \
+    php-xmlreader \
+    php-ctype \
+    php-session \
+    php-mbstring \
+    php-gd \
+    curl \
+    && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copier le code source de Symfony
-COPY . .
 
-# Installation des dépendances Symfony
-RUN apk --no-cache add \
-    php8 \
-    php8-fpm \
-    php8-mbstring \
-    php8-openssl \
-    php8-json \
-    php8-dom \
-    php8-pdo \
-    php8-pdo_pgsql \
-    php8-tokenizer \
-    php8-xml \
-    php8-ctype \
-    php8-session \
-    php8-simplexml \
-    php8-fileinfo 
+WORKDIR /app
 
 
 EXPOSE 8000
 
-CMD ["php", "bin/console", "server:run", "0.0.0.0:8000"]
+
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]

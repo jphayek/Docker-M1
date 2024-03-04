@@ -15,8 +15,22 @@ services:
     depends_on:
       - db
 
+
   composer:
     image: 'jasonafs/composer-custom'
+
+
+
+  symfony:
+    image: "jasonafs/symfony"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_URL: "pgsql://my_username:pass@db/db"
 
 
 

@@ -2,14 +2,14 @@
 
 # Vérifie si le dossier de données est vide. Si vide, crea base de données.
 if [ -z "$(ls -A /var/lib/postgresql/data)" ]; then
-    # Initialise la base de données
+    # init bd
     initdb -D /var/lib/postgresql/data
     
-    # Démarrage temporaire de PostgreSQL en arrière-plan
-    postgres -D /var/lib/postgresql/data & 
-    sleep 5 # Donne le temps à PostgreSQL de démarrer
     
-    # Création d'un utilisateur avec le mot de passe spécifié
+    postgres -D /var/lib/postgresql/data & 
+    sleep 
+    
+    
     psql --command "CREATE USER my_username WITH SUPERUSER ENCRYPTED PASSWORD 'pass';"
 
 
@@ -32,16 +32,16 @@ INSERT INTO todo (titre, status, description) VALUES
 EOF
 
     
-    # Arrêt de PostgreSQL
+    
     killall postgres
     wait $!
 fi
 
-# Modifie postgresql.conf pour autoriser les connexions externes
+#  autoriser les connexions externes
 echo "listen_addresses='*'" >> /var/lib/postgresql/data/postgresql.conf
 
-# Modifie pg_hba.conf pour autoriser toutes les connexions
+#  toutes les connexions
 echo "host all all 0.0.0.0/0 md5" >> /var/lib/postgresql/data/pg_hba.conf
 
-# Démarrage de PostgreSQL
+# Dem PostgreSQL
 exec postgres -D /var/lib/postgresql/data
