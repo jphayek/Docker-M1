@@ -1,43 +1,23 @@
-version: '3.8'
+
+version: '3.7'
 
 services:
-  symfony:
-    build:
-      context: ./symfony
-      dockerfile: Dockerfile
+  db:
+    image: 'jasonafs/postgres'
     ports:
-      - "8000:8000"
-    volumes:
-      - ./symfony-app:/var/www/html
-
+      - "5432:5432"
+    restart: unless-stopped
+    
   adminer:
-    build:
-      context: ./adminer
-      dockerfile: Dockerfile
+    image: 'jasonafs/adminer'
     ports:
-      - "8080:8080"
-
-  postgres:
-    build:
-      context: ./postgres
-      dockerfile: Dockerfile
-    environment:
-      POSTGRES_DB: app
-      POSTGRES_USER: symfony
-      POSTGRES_PASSWORD: ChangeMe!
+      - "8080:80"
+    depends_on:
+      - db
 
   composer:
-    build:
-      context: ./composer
-      dockerfile: Dockerfile
-    volumes:
-      - ./symfony-app:/var/www/html
+    image: 'jasonafs/composer-custom'
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "80:80"
-    volumes:
-      - ./symfony-app:/var/www/html
+
+
+
