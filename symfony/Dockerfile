@@ -10,23 +10,21 @@ COPY . .
 
 # Installation des dépendances Symfony
 RUN apk --no-cache add \
-    php7 \
-    php7-fpm \
-    php7-mbstring \
-    php7-openssl \
-    php7-json \
-    php7-dom \
-    php7-pdo \
-    php7-pdo_pgsql \
-    php7-tokenizer \
-    php7-xml \
-    php7-ctype \
-    php7-session \
-    php7-simplexml \
-    php7-fileinfo \
-    composer
+    php8 \
+    php8-fpm \
+    php8-mbstring \
+    php8-openssl \
+    php8-json \
+    php8-dom \
+    php8-pdo \
+    php8-pdo_pgsql \
+    php8-tokenizer \
+    php8-xml \
+    php8-ctype \
+    php8-session \
+    php8-simplexml \
+    php8-fileinfo 
 
-RUN composer install --no-scripts --no-interaction
 
 EXPOSE 8000
 
