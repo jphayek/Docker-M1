@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  symfony:
+    build:
+      context: ./symfony
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./symfony-app:/var/www/html
+
+  adminer:
+    build:
+      context: ./adminer
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  postgres:
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    environment:
+      POSTGRES_DB: app
+      POSTGRES_USER: symfony
+      POSTGRES_PASSWORD: ChangeMe!
+
+  composer:
+    build:
+      context: ./composer
+      dockerfile: Dockerfile
+    volumes:
+      - ./symfony-app:/var/www/html
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./symfony-app:/var/www/html
